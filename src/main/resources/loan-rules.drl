@@ -1,0 +1,17 @@
+import com.portfolio.decisionengine.model.LoanApplication;
+
+rule "Reject Low Credit Score"
+when
+    $loan : LoanApplication(creditScore < 680)
+then
+    $loan.setApproved(false);
+    $loan.setDecisionReason("REJECTED: Credit score is below the minimum threshold of 680.");
+end
+
+rule "Approve High Earners with Good Credit"
+when
+    $loan : LoanApplication(creditScore >= 680 && salary >= 50000)
+then
+    $loan.setApproved(true);
+    $loan.setDecisionReason("APPROVED: Applicant meets credit and income requirements.");
+end
